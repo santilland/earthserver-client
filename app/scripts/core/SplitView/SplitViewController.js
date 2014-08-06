@@ -45,7 +45,14 @@ define([
 
 		setSinglescreen: function() {
 			this.view.showViewInRegion('tl', 'view1');
+
 			this.view.setFullscreen('view1');
+			
+			if ( $(".view1").hasClass("ui-resizable") ){
+				$(".view1").resizable('destroy');
+			}
+			
+			
 			this.windowViews.tl.showView(App.module('MapViewer').createController().getView());
 		},
 
@@ -57,6 +64,10 @@ define([
 
 			this.windowViews.tl.showView(App.module('MapViewer').createController().getView());
 			this.windowViews.tr.showView(App.module('VirtualGlobeViewer').createController().getView());
+
+			$(".view1").resizable({
+				handles: 'e'
+			});
 		},
 
 		setQuadscreen: function(regionid) {
