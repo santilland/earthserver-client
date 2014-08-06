@@ -201,7 +201,8 @@
 									wrapDateLine: overlay.wrapDateLine,
 									zoomOffset: overlay.zoomOffset,
 									//time: overlay.time // Is set in TimeSliderView on time change.
-								}
+								},
+								selection: overlay.selection
 							})
 						);
 						console.log("Added overlay " + overlay.id);

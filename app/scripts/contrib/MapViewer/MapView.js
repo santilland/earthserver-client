@@ -83,16 +83,35 @@ define(['backbone.marionette',
 					//}
 				}, this);
 
+
 				// Go through all products and add them to the map
                 globals.overlays.each(function(overlay){
 					// FIXXME: quick hack to not include W3DS layers:
 					//if (this.isModelCompatible(overlay)) {
 						// console.log('protocol: ' + overlay.get('view').protocol);
-						var layer = this.createLayer(overlay);
-						if (layer) {
-							this.map.addLayer(layer);
+						if(overlay.get("selection")){
+							var control = this.createControl(overlay);
+							if (control) {
+								this.map.addControl(control);
+
+								// Add additional visualization layer for selection layer
+								var vislayer = new OpenLayers.Layer.WMS(
+				                overlay.get("name"),
+				                overlay.get("view").urls[0],
+				                {layers: overlay.get("selection").featureType, format: 'image/png', transparent: true},
+				                {}
+				            );
+
+						    vislayer.setVisibility(false);
+						    this.map.addLayers([vislayer]);
+
+							}
+						}else{
+							var layer = this.createLayer(overlay);
+							if (layer) {
+								this.map.addLayer(layer);
+							}
 						}
-					//}
                 }, this);
 
 				// Order (sort) the product layers based on collection order
@@ -264,6 +283,63 @@ define(['backbone.marionette',
                 return return_layer;                
             },
 
+
+            createControl: function(layerdesc){
+            	
+            	var return_control = null;
+                var views = layerdesc.get('views');
+                var view = undefined;
+
+                if( typeof(views) == 'undefined'){
+	                view = layerdesc.get('view');
+	            } else {
+	            	
+	            	if (views.length == 1){
+	                	view = views[0];
+	                } else {
+                		// FIXXME: this whole logic has to be replaced by a more robust method, i.e. a viewer
+                		// defines, which protocols to support and get's the corresponding views from the
+                		// config then.
+
+                		// For now: prefer WMTS over WMS, if available:
+                		var wmts = _.find(views, function(view){ return view.protocol == "WMTS"; });
+                		if(wmts){
+                			view = wmts;
+                		} else {
+                			var wms = _.find(views, function(view){ return view.protocol == "WMS"; });
+                			if (wms) {
+	                			view = wms;
+	                		} else {
+                				// No supported protocol defined in config.json!
+                				return null;
+	                		}
+                		}
+	                }
+	            }
+                
+
+                switch(view.protocol){
+                	case "WFS":
+                		var selection = layerdesc.get("selection");
+                		return_control = new OpenLayers.Control.GetFeature({
+					        id: view.id,
+					        protocol: new OpenLayers.Protocol.WFS({
+					                      version: "1.0.0",
+					                      url:  view.urls[0],
+					                      featureType: selection.featureType,
+					                      geometryName: selection.geometryName
+					                  }),
+					        hover: selection.hover,
+					        multipleKey: selection.multipleKey
+					    });
+                	break;
+                }
+
+                return return_control;
+
+			    
+            },
+
 			centerMap: function(data) {
 				this.map.setCenter(new OpenLayers.LonLat(data.x, data.y), data.l);
 
@@ -302,6 +378,29 @@ define(['backbone.marionette',
                     var layers = this.map.getLayersByName(options.name);
                     if (layers.length) {
                     	layers[0].setVisibility(options.visible);
+                    }else{
+                    	var id = null;
+                    	globals.overlays.each(function(overlay){
+							if (overlay.get("name") == options.name)
+								id = overlay.get("view").id;
+		                }, this);
+		                if(id){
+		                	var control = this.map.getControl(id);	
+		                	if (options.visible){
+		                		var vislayer = this.map.getLayersByName(options.name)[0];
+		                		if (vislayer){
+		                			vislayer.setVisibility(true);
+		                		}
+		                		control.activate();
+		                	}else{
+		                		control.deactivate();
+		                		var vislayer = this.map.getLayersByName(options.name)[0];
+		                		if (vislayer){
+		                			vislayer.setVisibility(false);
+		                		}
+		                	}
+		                }
+                    	
                     }
                 }
             },
