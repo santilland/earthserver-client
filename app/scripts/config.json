@@ -423,6 +423,16 @@
                 "eventToRaise": "dialog:open:help",
                 "template": "help"
             }]
+        }, {
+            "name": "Legend",
+            "icon": "fa-list",
+            "eventToRaise": "ui:open:legend",
+            "template": "LegendTemplate"
+        }, {
+            "name": "Help",
+            "icon": "fa-question-circle",
+            "eventToRaise": "ui:open:help",
+            "template": "HelpTemplate"
         }]
     },
 
@@ -498,6 +508,12 @@
     }, {
         "id": "UseCaseTestTemplate",
         "template": "hbs!tmpl/UseCaseTestTemplate"
+    }, {
+        "id": "LegendTemplate",
+        "template": "hbs!tmpl/Legend"
+    }, {
+        "id": "HelpTemplate",
+        "template": "hbs!tmpl/Help"
     }],
 
     "selectionTools": [{

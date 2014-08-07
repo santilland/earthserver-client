@@ -253,6 +253,21 @@
                     }
 				});
 
+				this.addRegions({dialogRegion: DialogRegion.extend({el: "#viewContent"})});
+				this.LegendContentView = new v.ContentView({
+					template: {type: 'handlebars', template: t.LegendTemplate},
+                    id: "Legend",
+                    className: "modal fade",
+                    attributes: {
+                        role: "dialog",
+                        tabindex: "-1",
+                        "aria-labelledby": "about-title",
+                        "aria-hidden": true,
+                        "data-keyboard": true,
+                        "data-backdrop": "static"
+                    }
+				});
+
 				// Create the views - these are Marionette.CollectionViews that render ItemViews
                 this.baseLayerView = new v.BaseLayerSelectionView({
                 	collection:globals.baseLayers,
