@@ -92,8 +92,10 @@ define(['backbone.marionette',
 						if(overlay.get("selection")){
 							var control = this.createControl(overlay);
 							if (control) {
+								control.events.register("featureselected", this, this.onFeatureSelected);
+            					control.events.register("featureunselected", this, this.onFeatureUnselected);
 								this.map.addControl(control);
-
+								
 								// Add additional visualization layer for selection layer
 								var vislayer = new OpenLayers.Layer.WMS(
 				                overlay.get("name"),
@@ -378,29 +380,21 @@ define(['backbone.marionette',
                     var layers = this.map.getLayersByName(options.name);
                     if (layers.length) {
                     	layers[0].setVisibility(options.visible);
-                    }else{
+
+                    	// Check if there is also a control available for layer
                     	var id = null;
                     	globals.overlays.each(function(overlay){
 							if (overlay.get("name") == options.name)
 								id = overlay.get("view").id;
 		                }, this);
+
 		                if(id){
 		                	var control = this.map.getControl(id);	
-		                	if (options.visible){
-		                		var vislayer = this.map.getLayersByName(options.name)[0];
-		                		if (vislayer){
-		                			vislayer.setVisibility(true);
-		                		}
+		                	if (options.visible)
 		                		control.activate();
-		                	}else{
+		                	else
 		                		control.deactivate();
-		                		var vislayer = this.map.getLayersByName(options.name)[0];
-		                		if (vislayer){
-		                			vislayer.setVisibility(false);
-		                		}
-		                	}
 		                }
-                    	
                     }
                 }
             },
@@ -485,6 +479,8 @@ define(['backbone.marionette',
 						color = this.colors(colorindex);
 					feature.style = {fillColor: color, pointRadius: 6, strokeColor: color, fillOpacity: 0.5};
 					this.vectorLayer.addFeatures([feature.clone()]);
+				}else{
+					this.vectorLayer.removeAllFeatures();
 				}
 			},
 
@@ -556,6 +552,25 @@ define(['backbone.marionette',
 			},
 			isEventListenedTo: function(eventName) {
 			  return !!this._events[eventName];
+			},
+
+			onFeatureSelected: function(evt){
+
+				var colorindex = this.vectorLayer.features.length;
+				if(this.selectionType == "single"){
+					this.vectorLayer.removeAllFeatures();
+					colorindex = this.vectorLayer.features.length;
+					Communicator.mediator.trigger("selection:changed", null);
+				}
+
+				var color = this.colors(colorindex);
+				Communicator.mediator.trigger("selection:changed", evt.feature, this._convertCoordsFromOpenLayers(evt.feature.geometry, 0), color);
+				
+				evt.feature.destroy();
+			},
+
+			onFeatureUnselected: function(evt){
+				Communicator.mediator.trigger("selection:changed", null);
 			}
 		});
 

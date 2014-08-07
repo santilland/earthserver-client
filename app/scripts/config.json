@@ -20,8 +20,36 @@
         "center": [13.41, 52.52],
         "zoom": 5,
         "baseLayers": [{
-            "name": "Terrain",
+            "name": "Terrain Light",
             "visible": true,
+            "views": [{
+                "id": "terrain-light",
+                "protocol": "WMTS",
+                "urls": [
+                    "http://a.tiles.maps.eox.at/wmts/",
+                    "http://b.tiles.maps.eox.at/wmts/",
+                    "http://c.tiles.maps.eox.at/wmts/",
+                    "http://d.tiles.maps.eox.at/wmts/",
+                    "http://e.tiles.maps.eox.at/wmts/"
+                ],
+                "matrixSet": "WGS84",
+                "style": "default",
+                "format": "image/png",
+                "maxExtent": [-180.000000, -90.000000, 180.000000, 90.000000],
+                "resolutions": [0.70312500000000000000, 0.35156250000000000000, 0.17578125000000000000, 0.08789062500000000000, 0.04394531250000000000, 0.02197265625000000000, 0.01098632812500000000, 0.00549316406250000000, 0.00274658203125000000, 0.00137329101562500000, 0.00068664550781250000, 0.00034332275390625000, 0.00017166137695312500, 0.00008583068847656250, 0.00004291534423828120, 0.00002145767211914060, 0.00001072883605957030, 0.00000536441802978516],
+                "projection": "EPSG:4326",
+                "gutter": 0,
+                "buffer": 0,
+                "units": "dd",
+                "transitionEffect": "resize",
+                "isphericalMercator": false,
+                "wrapDateLine": true,
+                "zoomOffset": 0,
+                "attribution": "Terrain Light { Data &copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors and <a href='javascript:;' onClick='toggle(terrain_attribution)'>others</a>, Rendering &copy; <a href=\"http://eox.at\" target=\"_blank\">EOX</a> }"
+            }]
+        },{
+            "name": "Terrain",
+            "visible": false,
             "views": [{
                 "id": "terrain",
                 "protocol": "WMTS",
@@ -282,7 +310,17 @@
                 "id": "daily_FSC_PanEuropean_Optical",
                 "protocol": "EOWCS",
                 "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
+            },
+            "processes" : [{
+                "id": "wcpsPoint",
+                "layer_id": "daily_FSC_PanEuropean_Optical",
+                "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+            },
+            {
+                "id": "wcpsRivershed",
+                "layer_id": "daily_FSC_PanEuropean_Optical",
+                "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+            }]
         }],
         "overlays": [{
             "name": "Streets",
@@ -466,7 +504,7 @@
         "id": "pointSelection",
         "description": "Point selection tool - Click on the map to select a point",
         "icon": "icon-large icon-screenshot",
-        "selectionType":"single"
+        "selectionType":"multiple"
     }, {
         "id": "polygonSelection",
         "description": "Polygon selection tool - Click on the map for each polygon point you want to set; double click to finalize selection. Shift Key modifier allows free hand draw mode",

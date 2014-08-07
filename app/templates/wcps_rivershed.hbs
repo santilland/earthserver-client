@@ -1,0 +1,43 @@
+for c in ({{COVERAGEID}}),
+    m in ({{RIVERSHEDMASK}}), 
+    h in ({{HEIGHTMASK}})
+      return encode( 
+        (float) 
+        coverage temp 
+        over 
+        $pt time(imageCrsDomain(c[unix("{{START}}":"{{END}}")], unix)) 
+        values 
+        (    
+        add(((
+            c[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}}), unix($pt)] > 99 
+            and 
+            c[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}}), unix($pt)] < 201 
+            and 
+            m[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}})] = {{RIVERSHEDID}} 
+            and 
+            h[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}})] > {{MINHEIGHT}} 
+            and 
+            h[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}})] < {{MAXHEIGHT}} 
+            ) * ( 
+            c[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}}), unix($pt)] 
+        ))) 
+        / 
+        (count(m[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}})] < 1000) 
+        -  
+        count(((( 
+            c[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}}), unix($pt)] > 99 
+            and 
+            c[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}}), unix($pt)] < 201  
+            and  
+            m[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}})] = {{RIVERSHEDID}}  
+            and  
+            h[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}})] > {{MINHEIGHT}}  
+            and  
+            h[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}})] < {{MAXHEIGHT}} 
+            ) * ( 
+            c[Lat({{MINLAT}}:{{MAXLAT}}), Long({{MINLONG}}:{{MAXLONG}}), unix($pt)] 
+        )) = 0)) 
+        ) 
+        ), 
+      "csv" 
+    );

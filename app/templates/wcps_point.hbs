@@ -1,0 +1,8 @@
+for c in ({{ID}})
+	return encode(
+	c[
+		Long:"http://www.opengis.net/def/crs/EPSG/0/4326"({{LON}}),
+		Lat:"http://www.opengis.net/def/crs/EPSG/0/4326"({{LAT}}),
+		unix("{{START}}":"{{END}}")],
+		"csv"
+	);
