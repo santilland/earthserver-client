@@ -19,6 +19,9 @@
 				this.listenTo(Communicator.mediator, "ui:open:options", this.onOptionsOpen);
 				this.listenTo(Communicator.mediator, "ui:open:storybanner", this.StoryBannerOpen);
 				this.listenTo(Communicator.mediator, "ui:open:legend", this.onOpenLegend);
+				this.listenTo(Communicator.mediator, "ui:open:help", this.onOpenHelp);
+				this.listenTo(Communicator.mediator, "dialog:open:about", this.onDialogOpenAbout);
+				
 			},
 
 			onDialogOpenAbout: function(event){
@@ -27,6 +30,10 @@
 
 			onOpenLegend:function(event){
 				App.dialogRegion.show(App.LegendContentView);
+			},
+
+			onOpenHelp: function(event){
+				App.dialogRegion.show(App.HelpContentView);
 			},
 			
 			onLayerControlOpen: function(event){

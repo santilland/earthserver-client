@@ -149,16 +149,16 @@
 							timeSliderProtocol: (product.timeSliderProtocol) ? product.timeSliderProtocol : "WMS",
 							color: p_color,
 							//time: products.time, // Is set in TimeSliderView on time change.
-								opacity: 1,
-								views: product.views,
-								view: {isBaseLayer: false},
-								download: {
-									id: product.download.id,
-									protocol: product.download.protocol,
-									url: product.download.url
-								},
-								processes: product.processes 
-							})
+							opacity: (product.opacity) ? product.opacity : 1,
+							views: product.views,
+							view: {isBaseLayer: false},
+							download: {
+								id: product.download.id,
+								protocol: product.download.protocol,
+								url: product.download.url
+							},
+							processes: product.processes 
+						})
 					);
 
 					if(product.processes){
@@ -253,10 +253,11 @@
                     }
 				});
 
+				// Help Dialog Region
 				this.addRegions({dialogRegion: DialogRegion.extend({el: "#viewContent"})});
-				this.LegendContentView = new v.ContentView({
-					template: {type: 'handlebars', template: t.LegendTemplate},
-                    id: "Legend",
+				this.HelpContentView = new v.ContentView({
+					template: {type: 'handlebars', template: t.HelpTemplate},
+                    id: "Help",
                     className: "modal fade",
                     attributes: {
                         role: "dialog",

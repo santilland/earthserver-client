@@ -296,6 +296,7 @@
             "visible": false,
             "timeSlider": true,
             "timeSliderProtocol": "EOWCS",
+            "opacity": 0.6,
             "views": [{
                 "id": "daily_FSC_PanEuropean_Optical",
                 "protocol": "WMS",

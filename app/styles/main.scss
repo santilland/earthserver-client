@@ -141,6 +141,11 @@ div#preload {
   overflow-y: hidden !important; 
 }
 
+.modal-dialog{
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
 
 /*
  * Buttons
@@ -248,7 +253,7 @@ button[active=active] {
 }
 
 .popover {
-  width: 20em;
+  //width: 20em;
   font-weight:normal;
 }
 

@@ -232,7 +232,8 @@ define(['backbone.marionette',
 	                        zoomOffset: view.zoomOffset,
 	                        visibility: layerdesc.get("visible"),
 	                        time: layerdesc.get('time'),
-	                        attribution: view.attribution
+	                        attribution: view.attribution,
+	                        opacity: layerdesc.get("opacity")
                         });
                     break;
 
@@ -263,7 +264,8 @@ define(['backbone.marionette',
                                 wrapDateLine: view.wrapDateLine,
                                 zoomOffset: view.zoomOffset,
                                 visibility: layerdesc.get("visible"),
-                                attribution: view.attribution
+                                attribution: view.attribution,
+	                        	opacity: layerdesc.get("opacity")
                             }
                         );
                     break;
@@ -520,7 +522,26 @@ define(['backbone.marionette',
 
 			onTimeChange: function (time) {
 
-				var string = getISODateTimeString(time.start) + "/"+ getISODateTimeString(time.end);
+				// For the layer view we are not normally interested in complete time series
+				// as normally only the latest view is shown.
+				// If time interval is over 3 days we only use the last day as interval
+
+				var start = new Date(time.start)
+				var end = new Date(time.end);
+
+				console.log(start, end);
+
+				var timeDiff = Math.abs(end.getTime() - start.getTime());
+				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+
+				if (diffDays > 3){
+					var dateOffset = (24*60*60*1000) * 1; //1 days
+					start.setTime(end.getTime() - dateOffset);
+				}
+
+				console.log(start, end);
+
+				var string = getISODateTimeString(start) + "/"+ getISODateTimeString(end);
                                         
 	            globals.products.each(function(product) {
                     if(product.get("timeSlider")){
