@@ -83,16 +83,37 @@ define(['backbone.marionette',
 					//}
 				}, this);
 
+
 				// Go through all products and add them to the map
                 globals.overlays.each(function(overlay){
 					// FIXXME: quick hack to not include W3DS layers:
 					//if (this.isModelCompatible(overlay)) {
 						// console.log('protocol: ' + overlay.get('view').protocol);
-						var layer = this.createLayer(overlay);
-						if (layer) {
-							this.map.addLayer(layer);
+						if(overlay.get("selection")){
+							var control = this.createControl(overlay);
+							if (control) {
+								control.events.register("featureselected", this, this.onFeatureSelected);
+            					control.events.register("featureunselected", this, this.onFeatureUnselected);
+								this.map.addControl(control);
+								
+								// Add additional visualization layer for selection layer
+								var vislayer = new OpenLayers.Layer.WMS(
+				                overlay.get("name"),
+				                overlay.get("view").urls[0],
+				                {layers: overlay.get("selection").featureType, format: 'image/png', transparent: true},
+				                {}
+				            );
+
+						    vislayer.setVisibility(false);
+						    this.map.addLayers([vislayer]);
+
+							}
+						}else{
+							var layer = this.createLayer(overlay);
+							if (layer) {
+								this.map.addLayer(layer);
+							}
 						}
-					//}
                 }, this);
 
 				// Order (sort) the product layers based on collection order
@@ -211,7 +232,8 @@ define(['backbone.marionette',
 	                        zoomOffset: view.zoomOffset,
 	                        visibility: layerdesc.get("visible"),
 	                        time: layerdesc.get('time'),
-	                        attribution: view.attribution
+	                        attribution: view.attribution,
+	                        opacity: layerdesc.get("opacity")
                         });
                     break;
 
@@ -242,7 +264,8 @@ define(['backbone.marionette',
                                 wrapDateLine: view.wrapDateLine,
                                 zoomOffset: view.zoomOffset,
                                 visibility: layerdesc.get("visible"),
-                                attribution: view.attribution
+                                attribution: view.attribution,
+	                        	opacity: layerdesc.get("opacity")
                             }
                         );
                     break;
@@ -262,6 +285,63 @@ define(['backbone.marionette',
                   	Communicator.mediator.trigger("progress:change", false);
                 });
                 return return_layer;                
+            },
+
+
+            createControl: function(layerdesc){
+            	
+            	var return_control = null;
+                var views = layerdesc.get('views');
+                var view = undefined;
+
+                if( typeof(views) == 'undefined'){
+	                view = layerdesc.get('view');
+	            } else {
+	            	
+	            	if (views.length == 1){
+	                	view = views[0];
+	                } else {
+                		// FIXXME: this whole logic has to be replaced by a more robust method, i.e. a viewer
+                		// defines, which protocols to support and get's the corresponding views from the
+                		// config then.
+
+                		// For now: prefer WMTS over WMS, if available:
+                		var wmts = _.find(views, function(view){ return view.protocol == "WMTS"; });
+                		if(wmts){
+                			view = wmts;
+                		} else {
+                			var wms = _.find(views, function(view){ return view.protocol == "WMS"; });
+                			if (wms) {
+	                			view = wms;
+	                		} else {
+                				// No supported protocol defined in config.json!
+                				return null;
+	                		}
+                		}
+	                }
+	            }
+                
+
+                switch(view.protocol){
+                	case "WFS":
+                		var selection = layerdesc.get("selection");
+                		return_control = new OpenLayers.Control.GetFeature({
+					        id: view.id,
+					        protocol: new OpenLayers.Protocol.WFS({
+					                      version: "1.0.0",
+					                      url:  view.urls[0],
+					                      featureType: selection.featureType,
+					                      geometryName: selection.geometryName
+					                  }),
+					        hover: selection.hover,
+					        multipleKey: selection.multipleKey
+					    });
+                	break;
+                }
+
+                return return_control;
+
+			    
             },
 
 			centerMap: function(data) {
@@ -302,6 +382,21 @@ define(['backbone.marionette',
                     var layers = this.map.getLayersByName(options.name);
                     if (layers.length) {
                     	layers[0].setVisibility(options.visible);
+
+                    	// Check if there is also a control available for layer
+                    	var id = null;
+                    	globals.overlays.each(function(overlay){
+							if (overlay.get("name") == options.name)
+								id = overlay.get("view").id;
+		                }, this);
+
+		                if(id){
+		                	var control = this.map.getControl(id);	
+		                	if (options.visible)
+		                		control.activate();
+		                	else
+		                		control.deactivate();
+		                }
                     }
                 }
             },
@@ -386,6 +481,8 @@ define(['backbone.marionette',
 						color = this.colors(colorindex);
 					feature.style = {fillColor: color, pointRadius: 6, strokeColor: color, fillOpacity: 0.5};
 					this.vectorLayer.addFeatures([feature.clone()]);
+				}else{
+					this.vectorLayer.removeAllFeatures();
 				}
 			},
 
@@ -425,7 +522,22 @@ define(['backbone.marionette',
 
 			onTimeChange: function (time) {
 
-				var string = getISODateTimeString(time.start) + "/"+ getISODateTimeString(time.end);
+				// For the layer view we are not normally interested in complete time series
+				// as normally only the latest view is shown.
+				// If time interval is over 3 days we only use the last day as interval
+
+				var start = new Date(time.start)
+				var end = new Date(time.end);
+
+				var timeDiff = Math.abs(end.getTime() - start.getTime());
+				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+
+				if (diffDays > 3){
+					var dateOffset = (24*60*60*1000) * 1; //1 days
+					start.setTime(end.getTime() - dateOffset);
+				}
+
+				var string = getISODateTimeString(start) + "/"+ getISODateTimeString(end);
                                         
 	            globals.products.each(function(product) {
                     if(product.get("timeSlider")){
@@ -457,6 +569,25 @@ define(['backbone.marionette',
 			},
 			isEventListenedTo: function(eventName) {
 			  return !!this._events[eventName];
+			},
+
+			onFeatureSelected: function(evt){
+
+				var colorindex = this.vectorLayer.features.length;
+				if(this.selectionType == "single"){
+					this.vectorLayer.removeAllFeatures();
+					colorindex = this.vectorLayer.features.length;
+					Communicator.mediator.trigger("selection:changed", null);
+				}
+
+				var color = this.colors(colorindex);
+				Communicator.mediator.trigger("selection:changed", evt.feature, this._convertCoordsFromOpenLayers(evt.feature.geometry, 0), color);
+				
+				evt.feature.destroy();
+			},
+
+			onFeatureUnselected: function(evt){
+				Communicator.mediator.trigger("selection:changed", null);
 			}
 		});
 

@@ -7,11 +7,14 @@ define(['backbone.marionette',
 		'hbs!tmpl/wps_getCoverageDifference',
 		'hbs!tmpl/wps_getVolumePixelValues',
 		'hbs!tmpl/wps_getValuesThroughTime',
+		'hbs!tmpl/wcps_point',
+		'hbs!tmpl/wcps_rivershed',
 		'd3',
 		'analytics',
 		'nv'
 	],
-	function(Marionette, Communicator, App, AnalyticsModel, globals, wps_getdataTmpl, wps_getCovDiffTmpl, wps_getVolumePixelValuesTmpl, wps_getValuesThroughTimeTmpl) {
+	function(Marionette, Communicator, App, AnalyticsModel, globals, wps_getdataTmpl, wps_getCovDiffTmpl,
+			 wps_getVolumePixelValuesTmpl, wps_getValuesThroughTimeTmpl, wcps_pointTmpl, wcps_rivershedTmpl) {
 
 		var AnalyticsView = Marionette.View.extend({
 
@@ -22,11 +25,13 @@ define(['backbone.marionette',
 				this.isClosed = true;
 				this.selection_list = [];
 				this.plotdata = [];
+				this.collecteddata = [];
 				this.img = null;
 				this.overlay = null;
 				this.activeWPSproducts = [];
-				this.plot_type = 'scatter';
+				this.plot_type = 'line';
 				this.selected_time = Communicator.reqres.request('get:time');
+				this.timechange = false;
 				$(window).resize(function() {
 					this.onResize();
 				}.bind(this));
@@ -54,12 +59,12 @@ define(['backbone.marionette',
 				
 
 				this.$el.append(
-					"<div class='d3canvas'></div>" +
-					"<div class='gui'>" +
+					"<div class='d3canvas'></div>"
+					/*"<div class='gui'>" +
 						"<div class='scatter-btn highlight '><i class='sprite sprite-scatter' style='widht:22px'></i></div>" +
 						"<div class='box-btn highlight '><i class='sprite sprite-box'></i></div>" +
 						"<div class='parallel-btn highlight '><i class='sprite sprite-parallel'></i></div>" +
-					"</div> ");
+					"</div> "*/);
 
 
 				globals.products.each(function(model) {
@@ -92,8 +97,7 @@ define(['backbone.marionette',
 				
 				var args = {
 					selector: this.$('.d3canvas')[0],
-					data: this.plotdata,
-					colors: colors
+					data: this.plotdata
 				};
 
 				switch (type){
@@ -177,6 +181,7 @@ define(['backbone.marionette',
 				}else{
 					this.plotdata = [];
 					this.selection_list = [];
+					this.collecteddata = [];
 					//this.render(this.plot_type);
 					this.checkSelections();
 				}
@@ -195,6 +200,8 @@ define(['backbone.marionette',
 
 			onTimeChange: function (time) {
 				this.selected_time = time;
+				this.collecteddata = [];
+				this.timechange = true;
 				this.checkSelections();
 			},
 
@@ -206,6 +213,8 @@ define(['backbone.marionette',
 				var getdatalist = [];
 				var getvolumepixelvaluelist = [];
 				var getvaluesthroughtimelist = [];
+				var getwcpspointvalues = [];
+				var getwcpsriversheds = [];
 
 				globals.products.each(function(model) {
 	                if (model.get('visible')) {
@@ -224,6 +233,12 @@ define(['backbone.marionette',
 			                    	break;
 			                    	case "getValuesThroughTime":
 			                    		getvaluesthroughtimelist.push(process.layer_id);
+			                    	break;
+			                    	case "wcpsPoint":
+			                    		getwcpspointvalues.push({"id":process.layer_id, "url":process.url});
+			                    	break;
+			                    	case "wcpsRivershed":
+			                    		getwcpsriversheds.push({"id":process.layer_id, "url":process.url});
 			                    	break;
 			                    	
 			                    }
@@ -326,6 +341,205 @@ define(['backbone.marionette',
 						that.render('line');
 					});
 
+            	}else if (getwcpspointvalues.length > 0 && this.selection_list[0].geometry.CLASS_NAME == "OpenLayers.Geometry.Point"){
+
+
+            		if (this.timechange){
+
+            			var args = [];
+
+            			for (var cnt = 0; cnt < this.selection_list.length; cnt++) {
+            				var queryText = wcps_pointTmpl({
+								LON: this.selection_list[cnt].geometry.x,
+								LAT: this.selection_list[cnt].geometry.y,
+								ID: getwcpspointvalues[0].id,
+								START: getISODateTimeString(this.selected_time.start),
+								END: getISODateTimeString(this.selected_time.end)
+							});
+
+							queryText = queryText.replace(/(\r\n|\n|\r)/gm,""); //Remove any new lines
+							queryText = queryText.replace(/ +(?= )/g,''); //Remove any spaces
+
+							var form = d3.format(',.2f');
+    						var pointdef = 'Lat: ' + form(this.selection_list[cnt].geometry.y) + '; Lon: ' + form(this.selection_list[cnt].geometry.x);
+
+    						args.push([queryText, pointdef]);
+            			};
+
+						deferredGet(0, this.selection_list.length-1);
+
+						function deferredGet(index, max){    
+						    if (index<max){
+						        return $.ajax({
+						            url: getwcpspointvalues[0].url,
+						            data: {query: args[index][0]},
+						            type: 'get',
+						            success: _.bind(function(data) {
+										that.plotdata = that.processData(data, args[index][1]);
+				            			that.render('line');
+						        	})
+						        })
+						        .then(function(){
+						            deferredGet(index+1, max);
+								});
+						    } else {
+						        return $.ajax({
+						            url: getwcpspointvalues[0].url,
+						            data: {query: args[index][0]},
+						            type: 'get',
+						            success: _.bind(function(data) {
+										that.plotdata = that.processData(data, args[index][1]);
+				            			that.render('line');
+						        	})
+						        });
+						    }
+						}
+
+            			this.timechange = false;
+
+            			
+            		}else{
+            			var cnt = this.selection_list.length -1;
+
+	            		var queryText = wcps_pointTmpl({
+							LON: this.selection_list[cnt].geometry.x,
+							LAT: this.selection_list[cnt].geometry.y,
+							ID: getwcpspointvalues[0].id,
+							START: getISODateTimeString(this.selected_time.start),
+							END: getISODateTimeString(this.selected_time.end)
+						});
+
+						queryText = queryText.replace(/(\r\n|\n|\r)/gm,""); //Remove any new lines
+						queryText = queryText.replace(/ +(?= )/g,''); //Remove any spaces
+
+						var form = d3.format(',.2f');
+    					var pointdef = 'Lat: ' + form(this.selection_list[cnt].geometry.y) + '; Lon: ' + form(this.selection_list[cnt].geometry.x);
+
+    					(function(_pointdef) {
+		            		$.ajax({
+					            url: getwcpspointvalues[0].url,
+					            data: {query: queryText},
+					            type: 'get',
+					            success: _.bind(function(data) {
+					            	that.plotdata = that.processData(data, _pointdef);
+									that.render('line');
+					            }, this)
+					        });
+						}(pointdef));
+            		}
+
+            		
+
+            	}else if (
+            		getwcpsriversheds.length > 0 && 
+            		(this.selection_list[0].geometry.CLASS_NAME == "OpenLayers.Geometry.Polygon" ||
+            			this.selection_list[0].geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPolygon")
+            		){
+
+            		if (this.timechange){
+            		
+            			var args = [];
+
+            			for (var cnt = 0; cnt < this.selection_list.length; cnt++) {
+
+
+            				var selection = this.selection_list[cnt];
+
+		            		var queryText = wcps_rivershedTmpl({
+								RIVERSHEDID: selection.attributes.OBJECTID,
+								MINLONG: selection.geometry.getBounds().left,
+								MAXLONG: selection.geometry.getBounds().right,
+								MINLAT: selection.geometry.getBounds().bottom,
+								MAXLAT: selection.geometry.getBounds().top,
+								COVERAGEID: getwcpsriversheds[0].id,
+								RIVERSHEDMASK: "WFD_RBD_f1v4_" + getwcpsriversheds[0].id,
+								HEIGHTMASK: "GTOPO30_" + getwcpsriversheds[0].id,
+								MINHEIGHT: 0,
+								MAXHEIGHT: 5000,
+								START: getISODateTimeString(this.selected_time.start),
+								END: getISODateTimeString(this.selected_time.end)
+							});
+
+							queryText = queryText.replace(/(\r\n|\n|\r)/gm,""); //Remove any new lines
+							queryText = queryText.replace(/ +(?= )/g,''); //Remove any spaces
+
+
+    						var form = d3.format(',.2f');
+    						var pointdef = selection.attributes.RBDName;
+
+    						args.push([queryText, pointdef]);
+            			};
+
+						deferredGet(0, this.selection_list.length-1);
+
+						function deferredGet(index, max){    
+						    if (index<max){
+						        return $.ajax({
+						            url: getwcpspointvalues[0].url,
+						            data: {query: args[index][0]},
+						            type: 'get',
+						            success: _.bind(function(data) {
+										that.plotdata = that.processData(data, args[index][1]);
+				            			that.render('line');
+						        	})
+						        })
+						        .then(function(){
+						            deferredGet(index+1, max);
+								});
+						    } else {
+						        return $.ajax({
+						            url: getwcpspointvalues[0].url,
+						            data: {query: args[index][0]},
+						            type: 'get',
+						            success: _.bind(function(data) {
+										that.plotdata = that.processData(data, args[index][1]);
+				            			that.render('line');
+						        	})
+						        });
+						    }
+						}
+
+            			this.timechange = false;
+
+            			
+            		}else{
+
+            			var cnt = this.selection_list.length -1;
+
+            			var selection = this.selection_list[cnt];
+
+	            		var queryText = wcps_rivershedTmpl({
+							RIVERSHEDID: selection.attributes.OBJECTID,
+							MINLONG: selection.geometry.getBounds().left,
+							MAXLONG: selection.geometry.getBounds().right,
+							MINLAT: selection.geometry.getBounds().bottom,
+							MAXLAT: selection.geometry.getBounds().top,
+							COVERAGEID: getwcpsriversheds[0].id,
+							RIVERSHEDMASK: "WFD_RBD_f1v4_" + getwcpsriversheds[0].id,
+							HEIGHTMASK: "GTOPO30_" + getwcpsriversheds[0].id,
+							MINHEIGHT: 0,
+							MAXHEIGHT: 5000,
+							START: getISODateTimeString(this.selected_time.start),
+							END: getISODateTimeString(this.selected_time.end)
+						});
+
+						queryText = queryText.replace(/(\r\n|\n|\r)/gm,""); //Remove any new lines
+						queryText = queryText.replace(/ +(?= )/g,''); //Remove any spaces
+
+						var pointdef = selection.attributes.RBDName;
+						(function(_pointdef) {
+		            		$.ajax({
+					            url: getwcpspointvalues[0].url,
+					            data: {query: queryText},
+					            type: 'get',
+					            success: _.bind(function(data) {
+										that.plotdata = that.processData(data, _pointdef);
+				            			that.render('line');
+									that.render('line');
+					            }, this)
+					        });
+						}(pointdef));	
+            		}
             	}
 
 				
@@ -334,6 +548,31 @@ define(['backbone.marionette',
 			close: function() {
 	            this.isClosed = true;
 	            this.triggerMethod('view:disconnect');
+	        },
+
+	        processData: function(data, pointdef){
+	        	var date = new Date(this.selected_time.start);
+	        	var dateOffset = (24*60*60*1000) * 1; //1 day
+            	var res_data = '';
+
+                data = data.replace(/[{()}]/g, '');
+                data = data.split(",");
+
+                for (var i=0; i<data.length;i++){
+
+					date.setTime(this.selected_time.start.getTime() + dateOffset * i);
+                	if (data[i]<=200 && data[i]>=100)
+                		res_data += pointdef + ',' + date + ',' + (data[i] - 100) + '\n';
+                }
+
+                this.collecteddata.push(res_data);		
+
+                var plotdata = 'id,time,val\n';
+                for (var i=0; i<this.collecteddata.length;i++){
+                	plotdata += this.collecteddata[i];
+                }
+
+                return plotdata;
 	        }
 
 		});

@@ -13,16 +13,33 @@
 
 		var ContentController = Backbone.Marionette.Controller.extend({
             initialize: function(options){
-            	this.listenTo(Communicator.mediator, "dialog:open:about", this.onDialogOpenAbout);
+            	this.listenTo(Communicator.mediator, "ui:open:storybanner", this.StoryBannerOpen);
             	this.listenTo(Communicator.mediator, "ui:open:layercontrol", this.onLayerControlOpen);
             	this.listenTo(Communicator.mediator, "ui:open:toolselection", this.onToolSelectionOpen);
 				this.listenTo(Communicator.mediator, "ui:open:options", this.onOptionsOpen);
 				this.listenTo(Communicator.mediator, "ui:open:storybanner", this.StoryBannerOpen);
+				this.listenTo(Communicator.mediator, "ui:open:legend", this.onOpenLegend);
+				this.listenTo(Communicator.mediator, "ui:open:help", this.onOpenHelp);
+				this.listenTo(Communicator.mediator, "dialog:open:about", this.onDialogOpenAbout);
+				
 			},
 
 			onDialogOpenAbout: function(event){
 				App.dialogRegion.show(App.DialogContentView);
 			},
+
+			onOpenLegend:function(event){
+				if (_.isUndefined(App.LegendView.isClosed) || App.LegendView.isClosed) {
+				  	App.leftSideBar.show(App.LegendView);
+				} else {
+					App.leftSideBar.close();
+                }
+			},
+
+			onOpenHelp: function(event){
+				App.dialogRegion.show(App.HelpContentView);
+			},
+			
 			onLayerControlOpen: function(event){
 				//We have to render the layout before we can
                 //call show() on the layout's regions

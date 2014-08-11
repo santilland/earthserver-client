@@ -45,7 +45,8 @@
 				protocol: '',
 				url : [],
 			},
-			processes : []
+			processes : [],
+			selection: null
 			
 			
 		});

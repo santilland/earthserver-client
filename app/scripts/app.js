@@ -149,16 +149,16 @@
 							timeSliderProtocol: (product.timeSliderProtocol) ? product.timeSliderProtocol : "WMS",
 							color: p_color,
 							//time: products.time, // Is set in TimeSliderView on time change.
-								opacity: 1,
-								views: product.views,
-								view: {isBaseLayer: false},
-								download: {
-									id: product.download.id,
-									protocol: product.download.protocol,
-									url: product.download.url
-								},
-								processes: product.processes 
-							})
+							opacity: (product.opacity) ? product.opacity : 1,
+							views: product.views,
+							view: {isBaseLayer: false},
+							download: {
+								id: product.download.id,
+								protocol: product.download.protocol,
+								url: product.download.url
+							},
+							processes: product.processes 
+						})
 					);
 
 					if(product.processes){
@@ -201,7 +201,8 @@
 									wrapDateLine: overlay.wrapDateLine,
 									zoomOffset: overlay.zoomOffset,
 									//time: overlay.time // Is set in TimeSliderView on time change.
-								}
+								},
+								selection: overlay.selection
 							})
 						);
 						console.log("Added overlay " + overlay.id);
@@ -251,6 +252,29 @@
                         "data-backdrop": "static"
                     }
 				});
+
+				// Help Dialog Region
+				//this.addRegions({dialogRegion: DialogRegion.extend({el: "#viewContent"})});
+				this.HelpContentView = new v.ContentView({
+					template: {type: 'handlebars', template: t.HelpTemplate},
+                    id: "Help",
+                    className: "modal fade",
+                    attributes: {
+                        role: "dialog",
+                        tabindex: "-1",
+                        "aria-labelledby": "about-title",
+                        "aria-hidden": true,
+                        "data-keyboard": true,
+                        "data-backdrop": "static"
+                    }
+				});
+
+				// Instanciate Legend view
+				this.LegendView = new v.UIElementView({
+                	template: {type: 'handlebars', template: t.LegendTemplate},
+                	className: "panel panel-default layercontrol not-selectable"
+                });
+
 
 				// Create the views - these are Marionette.CollectionViews that render ItemViews
                 this.baseLayerView = new v.BaseLayerSelectionView({

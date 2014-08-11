@@ -97,6 +97,14 @@ define([
         onResize: function() {
             if (this.getViewer()) {
                 this.getViewer().onResize();
+                // FIXXME: the height/width has to be set explicitly after setting the
+                // the new css class. Why?
+                /*this.globe.renderContext.canvas.width = this.canvas.width();
+                this.globe.renderContext.canvas.height = this.canvas.height();
+
+                // Adjust the globe's aspect ration and redraw:
+                this.globe.renderContext.updateViewDependentProperties();
+                this.globe.refresh();*/
             }
         },
 

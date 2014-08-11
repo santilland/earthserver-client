@@ -49,8 +49,16 @@ define([
     };
 
     XTKViewer.prototype.onResize = function() {
+
+        this.renderer._width = this.renderer._container.clientWidth;
+        this.renderer._height = this.renderer._container.clientHeight;
+
+        this.renderer._canvas.width = this.renderer._container.clientWidth;
+        this.renderer._canvas.height = this.renderer._container.clientHeight;
+
         this.renderer.resetBoundingBox();
         this.renderer.resetViewAndRender();
+       
     };
 
     function str2ab(str) {
