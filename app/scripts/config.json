@@ -10,7 +10,7 @@
         "contrib/AnalyticsViewer/AnalyticsViewModule"
     ],
 
-    "storyTemplate": "UseCaseTestTemplate",
+    "storyTemplate": "EarthServerTutorial",
 
     "mapConfig": {
         "model": "models/MapModel",
@@ -510,6 +510,9 @@
     }, {
         "id": "UseCaseTestTemplate",
         "template": "hbs!tmpl/UseCaseTestTemplate"
+    }, {
+        "id": "EarthServerTutorial",
+        "template": "hbs!tmpl/EarthServerTutorial"
     }, {
         "id": "LegendTemplate",
         "template": "hbs!tmpl/Legend"
