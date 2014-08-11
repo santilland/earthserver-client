@@ -552,13 +552,15 @@ define(['backbone.marionette',
 
 	        processData: function(data, pointdef){
 	        	var date = new Date(this.selected_time.start);
+	        	var dateOffset = (24*60*60*1000) * 1; //1 day
             	var res_data = '';
 
                 data = data.replace(/[{()}]/g, '');
                 data = data.split(",");
 
                 for (var i=0; i<data.length;i++){
-                	date.setDate(date.getDate() + i);
+
+					date.setTime(this.selected_time.start.getTime() + dateOffset * i);
                 	if (data[i]<=200 && data[i]>=100)
                 		res_data += pointdef + ',' + date + ',' + (data[i] - 100) + '\n';
                 }

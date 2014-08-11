@@ -529,8 +529,6 @@ define(['backbone.marionette',
 				var start = new Date(time.start)
 				var end = new Date(time.end);
 
-				console.log(start, end);
-
 				var timeDiff = Math.abs(end.getTime() - start.getTime());
 				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 
@@ -538,8 +536,6 @@ define(['backbone.marionette',
 					var dateOffset = (24*60*60*1000) * 1; //1 days
 					start.setTime(end.getTime() - dateOffset);
 				}
-
-				console.log(start, end);
 
 				var string = getISODateTimeString(start) + "/"+ getISODateTimeString(end);
                                         
