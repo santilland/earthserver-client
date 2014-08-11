@@ -88,35 +88,35 @@
               switch (product.get("timeSliderProtocol")){
                 case "WMS":
                   this.slider.addDataset({
-                    id: product.get('view').id,
+                    id: product.get('view').id.replace(/\W+/g,""),
                     color: product.get('color'),
                     data: new TimeSlider.Plugin.WMS({
                       url: product.get('view').urls[0],
                       eoid: product.get('view').id,
-                      dataset: product.get('view').id
+                      dataset: product.get('view').id.replace(/\W+/g,"")
                     })
                   });
                   break;
                 case "EOWCS":
                   this.slider.addDataset({
-                    id: product.get('download').id,
+                    id: product.get('download').id.replace(/\W+/g,""),
                     color: product.get('color'),
                     data: new TimeSlider.Plugin.EOWCS({
                         url: product.get('download').url,
                         eoid: product.get('download').id,
-                        dataset: product.get('download').id
+                        dataset: product.get('download').id.replace(/\W+/g,"")
                      })
                   });
                   break;
                 case "WPS":
                   var extent = Communicator.reqres.request('map:get:extent');
                   this.slider.addDataset({
-                    id: product.get('download').id,
+                    id: product.get('download').id.replace(/\W+/g,""),
                     color: product.get('color'),
                     data: new TimeSlider.Plugin.WPS({
                         url: product.get('download').url,
                         eoid: product.get('download').id,
-                        dataset: product.get('download').id ,
+                        dataset: product.get('download').id.replace(/\W+/g,"") ,
                         bbox: [extent.left, extent.bottom, extent.right, extent.top]
                      })
                   });

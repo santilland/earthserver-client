@@ -346,6 +346,8 @@ define(['backbone.marionette',
 
             		if (this.timechange){
 
+            			var args = [];
+
             			for (var cnt = 0; cnt < this.selection_list.length; cnt++) {
             				var queryText = wcps_pointTmpl({
 								LON: this.selection_list[cnt].geometry.x,
@@ -358,41 +360,40 @@ define(['backbone.marionette',
 							queryText = queryText.replace(/(\r\n|\n|\r)/gm,""); //Remove any new lines
 							queryText = queryText.replace(/ +(?= )/g,''); //Remove any spaces
 
+							var form = d3.format(',.2f');
+    						var pointdef = 'Lat: ' + form(this.selection_list[cnt].geometry.y) + '; Lon: ' + form(this.selection_list[cnt].geometry.x);
 
-    						var pointdef = 'P' + cnt;
-						    (function(_pointdef) {
-			            		$.ajax({
+    						args.push([queryText, pointdef]);
+            			};
+
+						deferredGet(0, this.selection_list.length-1);
+
+						function deferredGet(index, max){    
+						    if (index<max){
+						        return $.ajax({
 						            url: getwcpspointvalues[0].url,
-						            data: {query: queryText},
+						            data: {query: args[index][0]},
 						            type: 'get',
 						            success: _.bind(function(data) {
-
-						            	var date = new Date(that.selected_time.start);
-						            	var res_data = '';
-
-						                data = data.replace(/[{()}]/g, '');
-						                data = data.split(",");
-
-						                for (var i=0; i<data.length;i++){
-						                	date.setDate(date.getDate() + i);
-						                	if (data[i]<=200 && data[i]>=100)
-						                		res_data += _pointdef + ',' + date + ',' + (data[i] - 100) + '\n';
-						                }
-
-						                that.collecteddata.push(res_data);		
-
-						                var plotdata = 'id,time,val\n';
-						                for (var i=0; i<that.collecteddata.length;i++){
-						                	plotdata += that.collecteddata[i];
-						                }
-
-										that.plotdata = plotdata;
+										that.plotdata = that.processData(data, args[index][1]);
 				            			that.render('line');
-
-						            }, this)
+						        	})
+						        })
+						        .then(function(){
+						            deferredGet(index+1, max);
+								});
+						    } else {
+						        return $.ajax({
+						            url: getwcpspointvalues[0].url,
+						            data: {query: args[index][0]},
+						            type: 'get',
+						            success: _.bind(function(data) {
+										that.plotdata = that.processData(data, args[index][1]);
+				            			that.render('line');
+						        	})
 						        });
-							}(pointdef));
-            			};
+						    }
+						}
 
             			this.timechange = false;
 
@@ -411,37 +412,20 @@ define(['backbone.marionette',
 						queryText = queryText.replace(/(\r\n|\n|\r)/gm,""); //Remove any new lines
 						queryText = queryText.replace(/ +(?= )/g,''); //Remove any spaces
 
+						var form = d3.format(',.2f');
+    					var pointdef = 'Lat: ' + form(this.selection_list[cnt].geometry.y) + '; Lon: ' + form(this.selection_list[cnt].geometry.x);
 
-	            		$.ajax({
-				            url: getwcpspointvalues[0].url,
-				            data: {query: queryText},
-				            type: 'get',
-				            success: _.bind(function(data) {
-
-				            	var date = new Date(this.selected_time.start);
-				            	var res_data = '';
-
-				                data = data.replace(/[{()}]/g, '');
-				                data = data.split(",");
-
-				                for (var i=0; i<data.length;i++){
-				                	date.setDate(date.getDate() + i);
-				                	if (data[i]<=200 && data[i]>=100)
-				                		res_data += 'P' + cnt + ',' + date + ',' + (data[i] - 100) + '\n';
-				                }
-
-				                that.collecteddata.push(res_data);
-
-
-				                var plotdata = 'id,time,val\n';
-				                for (var i=0; i<that.collecteddata.length;i++){
-				                	plotdata += that.collecteddata[i];
-				                }
-
-								that.plotdata = plotdata;
-								that.render('line');
-				            }, this)
-				        });
+    					(function(_pointdef) {
+		            		$.ajax({
+					            url: getwcpspointvalues[0].url,
+					            data: {query: queryText},
+					            type: 'get',
+					            success: _.bind(function(data) {
+					            	that.plotdata = that.processData(data, _pointdef);
+									that.render('line');
+					            }, this)
+					        });
+						}(pointdef));
             		}
 
             		
@@ -454,6 +438,8 @@ define(['backbone.marionette',
 
             		if (this.timechange){
             		
+            			var args = [];
+
             			for (var cnt = 0; cnt < this.selection_list.length; cnt++) {
 
 
@@ -478,40 +464,40 @@ define(['backbone.marionette',
 							queryText = queryText.replace(/ +(?= )/g,''); //Remove any spaces
 
 
+    						var form = d3.format(',.2f');
     						var pointdef = selection.attributes.RBDName;
-						    (function(_pointdef) {
-			            		$.ajax({
+
+    						args.push([queryText, pointdef]);
+            			};
+
+						deferredGet(0, this.selection_list.length-1);
+
+						function deferredGet(index, max){    
+						    if (index<max){
+						        return $.ajax({
 						            url: getwcpspointvalues[0].url,
-						            data: {query: queryText},
+						            data: {query: args[index][0]},
 						            type: 'get',
 						            success: _.bind(function(data) {
-
-						            	var date = new Date(that.selected_time.start);
-						            	var res_data = '';
-
-						                data = data.replace(/[{()}]/g, '');
-						                data = data.split(",");
-
-						                for (var i=0; i<data.length;i++){
-						                	date.setDate(date.getDate() + i);
-						                	if (data[i]<=200 && data[i]>=100)
-						                		res_data += _pointdef + ',' + date + ',' + (data[i] - 100) + '\n';
-						                }
-
-						                that.collecteddata.push(res_data);		
-
-						                var plotdata = 'id,time,val\n';
-						                for (var i=0; i<that.collecteddata.length;i++){
-						                	plotdata += that.collecteddata[i];
-						                }
-
-										that.plotdata = plotdata;
+										that.plotdata = that.processData(data, args[index][1]);
 				            			that.render('line');
-
-						            }, this)
+						        	})
+						        })
+						        .then(function(){
+						            deferredGet(index+1, max);
+								});
+						    } else {
+						        return $.ajax({
+						            url: getwcpspointvalues[0].url,
+						            data: {query: args[index][0]},
+						            type: 'get',
+						            success: _.bind(function(data) {
+										that.plotdata = that.processData(data, args[index][1]);
+				            			that.render('line');
+						        	})
 						        });
-							}(pointdef));
-            			};
+						    }
+						}
 
             			this.timechange = false;
 
@@ -547,28 +533,8 @@ define(['backbone.marionette',
 					            data: {query: queryText},
 					            type: 'get',
 					            success: _.bind(function(data) {
-
-					            	var date = new Date(that.selected_time.start);
-					            	var res_data = '';
-
-					                data = data.replace(/[{()}]/g, '');
-					                data = data.split(",");
-
-					                for (var i=0; i<data.length;i++){
-					                	date.setDate(date.getDate() + i);
-					                	if (data[i]<=200 && data[i]>=100)
-					                		res_data += _pointdef + ',' + date + ',' + (data[i] - 100) + '\n';
-					                }
-
-					                that.collecteddata.push(res_data);
-
-
-					                var plotdata = 'id,time,val\n';
-					                for (var i=0; i<that.collecteddata.length;i++){
-					                	plotdata += that.collecteddata[i];
-					                }
-
-									that.plotdata = plotdata;
+										that.plotdata = that.processData(data, _pointdef);
+				            			that.render('line');
 									that.render('line');
 					            }, this)
 					        });
@@ -582,6 +548,29 @@ define(['backbone.marionette',
 			close: function() {
 	            this.isClosed = true;
 	            this.triggerMethod('view:disconnect');
+	        },
+
+	        processData: function(data, pointdef){
+	        	var date = new Date(this.selected_time.start);
+            	var res_data = '';
+
+                data = data.replace(/[{()}]/g, '');
+                data = data.split(",");
+
+                for (var i=0; i<data.length;i++){
+                	date.setDate(date.getDate() + i);
+                	if (data[i]<=200 && data[i]>=100)
+                		res_data += pointdef + ',' + date + ',' + (data[i] - 100) + '\n';
+                }
+
+                this.collecteddata.push(res_data);		
+
+                var plotdata = 'id,time,val\n';
+                for (var i=0; i<this.collecteddata.length;i++){
+                	plotdata += this.collecteddata[i];
+                }
+
+                return plotdata;
 	        }
 
 		});

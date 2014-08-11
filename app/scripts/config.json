@@ -461,7 +461,8 @@
         "core/ColorRamp/ColorRampView",
         "views/ToolItemView",
         "views/DownloadView",
-        "views/StoryBannerView"
+        "views/StoryBannerView",
+        "views/UIElementView"
     ],
 
     "models": [

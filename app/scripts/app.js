@@ -254,7 +254,7 @@
 				});
 
 				// Help Dialog Region
-				this.addRegions({dialogRegion: DialogRegion.extend({el: "#viewContent"})});
+				//this.addRegions({dialogRegion: DialogRegion.extend({el: "#viewContent"})});
 				this.HelpContentView = new v.ContentView({
 					template: {type: 'handlebars', template: t.HelpTemplate},
                     id: "Help",
@@ -268,6 +268,13 @@
                         "data-backdrop": "static"
                     }
 				});
+
+				// Instanciate Legend view
+				this.LegendView = new v.UIElementView({
+                	template: {type: 'handlebars', template: t.LegendTemplate},
+                	className: "panel panel-default layercontrol not-selectable"
+                });
+
 
 				// Create the views - these are Marionette.CollectionViews that render ItemViews
                 this.baseLayerView = new v.BaseLayerSelectionView({

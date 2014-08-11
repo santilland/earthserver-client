@@ -14,11 +14,33 @@
 
 		var UIElementView = Backbone.Marionette.ItemView.extend({
 
-			template: {type: 'handlebars', template: UIElementTmpl},
-
 			initialize: function(options) {
+				this.isclosed = true;
+			},
 
-			}
+			onShow: function(view){
+
+				this.isclosed = false;
+
+				this.$('.close').on("click", _.bind(this.onClose, this));
+		        this.$el.draggable({ 
+		          containment: "#content",
+		          scroll: false,
+		          handle: '.panel-heading'
+		        });
+				
+			},
+
+			onClose: function() {
+				this.isclosed = true;
+		        this.close();
+		    },
+
+		    isClosed: function(){
+		    	return this.isclosed;
+		    }
+
+
 
 		});
 

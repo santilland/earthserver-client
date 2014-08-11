@@ -29,7 +29,11 @@
 			},
 
 			onOpenLegend:function(event){
-				App.dialogRegion.show(App.LegendContentView);
+				if (_.isUndefined(App.LegendView.isClosed) || App.LegendView.isClosed) {
+				  	App.leftSideBar.show(App.LegendView);
+				} else {
+					App.leftSideBar.close();
+                }
 			},
 
 			onOpenHelp: function(event){
