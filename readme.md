@@ -1,6 +1,6 @@
-# EOxClient
+# EarthServer Client
 
-The EOxClient focuses on creating a webclient for map applications, which allows easy customization through a centralized configuration concept.
+The EarthServer Client is one of the lighthouse applications of EarthServer.
 
 ## Technologies used
 
@@ -20,10 +20,10 @@ The application uses [Yeoman](http://yeoman.io/) which integrates:
 
 ## How to setup development environmet (on a Linux machine)
 
-0.  Get the code from GitHub [EOxClient repository](https://github.com/EOX-A/EOxClient.git):
+0.  Get the code from GitHub [EarthServer Client repository](https://github.com/santilland/earthserver-client):
 
     ```
-    git clone git@github.com:EOX-A/EOxClient.git
+    git clone git@github.com:santilland/earthserver-client.git
     ```
 
 0.  Install development enviroment: 
@@ -32,7 +32,7 @@ The application uses [Yeoman](http://yeoman.io/) which integrates:
     on your machine and run:
 
     ```
-    cd ./EOxClient
+    cd ./earthserver-client
     sudo npm install -g grunt-cli
     sudo npm install -g bower 
     npm install 
