@@ -394,7 +394,7 @@
     }],
 
     "navBarConfig": {
-        "title": "/images/logo-earthserver+text_small_70px.png",
+        "title": "images/logo-earthserver+text_small_70px.png",
         "url": "http://earthserver.eu/",
         "items": [{
             "name": "Layers",
