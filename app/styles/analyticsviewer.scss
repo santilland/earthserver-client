@@ -65,3 +65,30 @@ text.nvd3.nv-noData {
     margin-right: auto; 
     width: auto;
 }
+
+.wrap{
+	position: absolute !important;
+	left: 25px;
+	top: 35%;
+	//height: 190px !important;
+}
+
+/*.ui-slider-handle>.tooltip{
+	right: -50px !important;
+}*/
+
+.ui-widget-header{
+	background: none !important;
+}
+
+.ui-slider-handle .tooltip-innner{
+	width: 30px !important;
+}
+
+.heightlabel{
+	-webkit-transform: rotate(-90deg);
+	//float: left;
+	position: relative;
+	left: -50px;
+	top: 100px;
+}

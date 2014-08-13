@@ -31,7 +31,9 @@ define(['backbone.marionette',
 				this.activeWPSproducts = [];
 				this.plot_type = 'line';
 				this.selected_time = Communicator.reqres.request('get:time');
-				this.timechange = false;
+				this.reloaddata = false;
+				this.maxheight = 5000;
+				this.minheight = 0;
 				$(window).resize(function() {
 					this.onResize();
 				}.bind(this));
@@ -59,12 +61,12 @@ define(['backbone.marionette',
 				
 
 				this.$el.append(
-					"<div class='d3canvas'></div>"
-					/*"<div class='gui'>" +
-						"<div class='scatter-btn highlight '><i class='sprite sprite-scatter' style='widht:22px'></i></div>" +
-						"<div class='box-btn highlight '><i class='sprite sprite-box'></i></div>" +
-						"<div class='parallel-btn highlight '><i class='sprite sprite-parallel'></i></div>" +
-					"</div> "*/);
+					"<div class='d3canvas'></div>" +
+					"<div class='wrap'>"+
+						"<div class='heightlabel'>Height filter</div>"+
+						"<div class='slider-range' style='height:200px'></div>"+
+					"</div>"
+					);
 
 
 				globals.products.each(function(model) {
@@ -74,6 +76,41 @@ define(['backbone.marionette',
 	                    } 
 	                }
             	}, this);
+
+
+            	var initialValues = [this.minheight, this.maxheight];
+
+
+            	var sliderTooltip = function(event, ui) {
+				    var curValues = ui.values || initialValues;
+				    var tooltipmax = '<div class="tooltip" style="bottom:20px"><div class="tooltip-inner" data-placement="right">' + curValues[0] + 'm</div></div></div>';
+				    var tooltipmin = '<div class="tooltip" style="bottom:20px"><div class="tooltip-inner" data-placement="right">' + curValues[1] + 'm</div></div></div>';
+				    $('.ui-slider-handle:first').html(tooltipmax);
+				    $('.ui-slider-handle').eq(1).html(tooltipmin);
+				}
+
+				var onSliderStop = (function(event, ui) {
+					var curValues = ui.values || initialValues;
+					this.minheight = ui.values[0];
+					this.maxheight = ui.values[1];
+
+					this.collecteddata = [];
+					this.reloaddata = true;
+
+					this.checkSelections();
+				}).bind(this);
+            	
+			    $(".slider-range").slider({
+			    	orientation: "vertical",
+					range: true,
+					min: 0,
+					max: 5000,
+					step: 10,
+					values: initialValues,
+					slide: sliderTooltip,
+			      	create: sliderTooltip,
+			      	stop: onSliderStop
+			    });
 
 
 				this.render('scatter');
@@ -201,7 +238,7 @@ define(['backbone.marionette',
 			onTimeChange: function (time) {
 				this.selected_time = time;
 				this.collecteddata = [];
-				this.timechange = true;
+				this.reloaddata = true;
 				this.checkSelections();
 			},
 
@@ -344,7 +381,7 @@ define(['backbone.marionette',
             	}else if (getwcpspointvalues.length > 0 && this.selection_list[0].geometry.CLASS_NAME == "OpenLayers.Geometry.Point"){
 
 
-            		if (this.timechange){
+            		if (this.reloaddata){
 
             			var args = [];
 
@@ -395,7 +432,7 @@ define(['backbone.marionette',
 						    }
 						}
 
-            			this.timechange = false;
+            			this.reloaddata = false;
 
             			
             		}else{
@@ -436,7 +473,7 @@ define(['backbone.marionette',
             			this.selection_list[0].geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPolygon")
             		){
 
-            		if (this.timechange){
+            		if (this.reloaddata){
             		
             			var args = [];
 
@@ -454,8 +491,8 @@ define(['backbone.marionette',
 								COVERAGEID: getwcpsriversheds[0].id,
 								RIVERSHEDMASK: "WFD_RBD_f1v4_" + getwcpsriversheds[0].id,
 								HEIGHTMASK: "GTOPO30_" + getwcpsriversheds[0].id,
-								MINHEIGHT: 0,
-								MAXHEIGHT: 5000,
+								MINHEIGHT: this.minheight,
+								MAXHEIGHT: this.maxheight,
 								START: getISODateTimeString(this.selected_time.start),
 								END: getISODateTimeString(this.selected_time.end)
 							});
@@ -499,7 +536,7 @@ define(['backbone.marionette',
 						    }
 						}
 
-            			this.timechange = false;
+            			this.reloaddata = false;
 
             			
             		}else{
@@ -517,8 +554,8 @@ define(['backbone.marionette',
 							COVERAGEID: getwcpsriversheds[0].id,
 							RIVERSHEDMASK: "WFD_RBD_f1v4_" + getwcpsriversheds[0].id,
 							HEIGHTMASK: "GTOPO30_" + getwcpsriversheds[0].id,
-							MINHEIGHT: 0,
-							MAXHEIGHT: 5000,
+							MINHEIGHT: this.minheight,
+							MAXHEIGHT: this.maxheight,
 							START: getISODateTimeString(this.selected_time.start),
 							END: getISODateTimeString(this.selected_time.end)
 						});
