@@ -123,206 +123,287 @@
             }]
         }],
         "products": [
-        {
-            "name": "Daily LIE Baltic Optical",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "daily_LIE_Baltic_Optical",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "daily_LIE_Baltic_Optical",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Daily FSC Alps Optical",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "daily_FSC_Alps_Optical",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "daily_FSC_Alps_Optical",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Multi-Temporal Scandinavia FSC",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "multitemp_FSC_Scandinavia_Optical",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "multitemp_FSC_Scandinavia_Optical",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Daily Uncertainty Estimation of Pan-European FSC",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "daily_FSC_PanEuropean_Optical_Uncertainty",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "daily_FSC_PanEuropean_Optical_Uncertainty",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Daily Wet Snow Covered Area - Scandinavia",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "daily_SCAW_Scandinavia_Radar",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "daily_SCAW_Scandinavia_Radar",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Multi-Temporal Scandinavia FSC (Optical/Radar)",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "multitemp_FSC_Scandinavia_Optical_Radar",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "multitemp_FSC_Scandinavia_Optical_Radar",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Daily Baltic Sea FSC",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "daily_FSC_Baltic_Optical",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "daily_FSC_Baltic_Optical",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Daily Pan-European Snow Water Equivalent",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "views": [{
-                "id": "daily_SWE_PanEuropean_Microwave",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "daily_SWE_PanEuropean_Microwave",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            }
-        },
-        {
-            "name": "Daily Pan-European FSC",
-            "visible": false,
-            "timeSlider": true,
-            "timeSliderProtocol": "EOWCS",
-            "opacity": 0.6,
-            "views": [{
-                "id": "daily_FSC_PanEuropean_Optical",
-                "protocol": "WMS",
-                "urls": [
-                    "http://neso.cryoland.enveo.at/cryoland/ows"
-                ],
-                "style": "default",
-                "format": "model/gltf",
-                "type": "volumetric"
-            }],
-            "download": {
-                "id": "daily_FSC_PanEuropean_Optical",
-                "protocol": "EOWCS",
-                "url": "http://neso.cryoland.enveo.at/cryoland/ows"
-            },
-            "processes" : [{
-                "id": "wcpsPoint",
-                "layer_id": "daily_FSC_PanEuropean_Optical",
-                "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+            {
+                "name": "Daily Pan-European FSC",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "opacity": 0.6,
+                "views": [{
+                    "id": "daily_FSC_PanEuropean_Optical",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "daily_FSC_PanEuropean_Optical",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "daily_FSC_PanEuropean_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "daily_FSC_PanEuropean_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
             },
             {
-                "id": "wcpsRivershed",
-                "layer_id": "daily_FSC_PanEuropean_Optical",
-                "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
-            }]
-        }],
+                "name": "Daily Pan-European Snow Water Equivalent",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "daily_SWE_PanEuropean_Microwave",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "daily_SWE_PanEuropean_Microwave",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "daily_SWE_PanEuropean_Microwave",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "daily_SWE_PanEuropean_Microwave",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            },
+            {
+                "name": "Daily FSC Alps Optical",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "daily_FSC_Alps_Optical",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "daily_FSC_Alps_Optical",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "daily_FSC_Alps_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "daily_FSC_Alps_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            },
+            {
+                "name": "Daily LIE Baltic Optical",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "daily_LIE_Baltic_Optical",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "daily_LIE_Baltic_Optical",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "daily_LIE_Baltic_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "daily_LIE_Baltic_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            },
+            {
+                "name": "Daily Baltic Sea FSC",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "daily_FSC_Baltic_Optical",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "daily_FSC_Baltic_Optical",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "daily_FSC_Baltic_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "daily_FSC_Baltic_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            },
+            {
+                "name": "Multi-Temporal Scandinavia FSC",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "multitemp_FSC_Scandinavia_Optical",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "multitemp_FSC_Scandinavia_Optical",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "multitemp_FSC_Scandinavia_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "multitemp_FSC_Scandinavia_Optical",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            },
+            {
+                "name": "Daily Wet Snow Covered Area - Scandinavia",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "daily_SCAW_Scandinavia_Radar",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "daily_SCAW_Scandinavia_Radar",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "daily_SCAW_Scandinavia_Radar",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "daily_SCAW_Scandinavia_Radar",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            },
+            {
+                "name": "Multi-Temporal Scandinavia FSC (Optical/Radar)",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "multitemp_FSC_Scandinavia_Optical_Radar",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "multitemp_FSC_Scandinavia_Optical_Radar",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "multitemp_FSC_Scandinavia_Optical_Radar",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "multitemp_FSC_Scandinavia_Optical_Radar",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            },
+            {
+                "name": "Daily Uncertainty Estimation of Pan-European FSC",
+                "visible": false,
+                "timeSlider": true,
+                "timeSliderProtocol": "EOWCS",
+                "views": [{
+                    "id": "daily_FSC_PanEuropean_Optical_Uncertainty",
+                    "protocol": "WMS",
+                    "urls": [
+                        "http://neso.cryoland.enveo.at/cryoland/ows"
+                    ],
+                    "style": "default",
+                    "format": "model/gltf",
+                    "type": "volumetric"
+                }],
+                "download": {
+                    "id": "daily_FSC_PanEuropean_Optical_Uncertainty",
+                    "protocol": "EOWCS",
+                    "url": "http://neso.cryoland.enveo.at/cryoland/ows"
+                },
+                "processes" : [{
+                    "id": "wcpsPoint",
+                    "layer_id": "daily_FSC_PanEuropean_Optical_Uncertainty",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                },
+                {
+                    "id": "wcpsRivershed",
+                    "layer_id": "daily_FSC_PanEuropean_Optical_Uncertainty",
+                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                }]
+            }
+        ],
         "overlays": [{
             "name": "Streets",
             "id": "overlay",
