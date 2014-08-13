@@ -147,12 +147,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "daily_FSC_PanEuropean_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "daily_FSC_PanEuropean_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -178,12 +178,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "daily_SWE_PanEuropean_Microwave",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "daily_SWE_PanEuropean_Microwave",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -209,12 +209,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "daily_FSC_Alps_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "daily_FSC_Alps_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -240,12 +240,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "daily_LIE_Baltic_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "daily_LIE_Baltic_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -271,12 +271,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "daily_FSC_Baltic_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "daily_FSC_Baltic_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -302,12 +302,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "multitemp_FSC_Scandinavia_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "multitemp_FSC_Scandinavia_Optical",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -333,12 +333,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "daily_SCAW_Scandinavia_Radar",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "daily_SCAW_Scandinavia_Radar",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -364,12 +364,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "multitemp_FSC_Scandinavia_Optical_Radar",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "multitemp_FSC_Scandinavia_Optical_Radar",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             },
             {
@@ -395,12 +395,12 @@
                 "processes" : [{
                     "id": "wcpsPoint",
                     "layer_id": "daily_FSC_PanEuropean_Optical_Uncertainty",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 },
                 {
                     "id": "wcpsRivershed",
                     "layer_id": "daily_FSC_PanEuropean_Optical_Uncertainty",
-                    "url": "http://earthserver.eox.at/beta-rasdaman/wcpsParser.php"
+                    "url": "http://earthserver.eox.at/rasdaman/wcpsParser.php"
                 }]
             }
         ],
