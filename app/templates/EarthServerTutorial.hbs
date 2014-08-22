@@ -23,10 +23,9 @@
 <section data-events="ui:open:toolselection">
     <span class="close">&#215;</span>
     <h2>Tools</h2>
-    <p>On the right i now opened the <strong>Tools</strong> Widget. This widget has Tools for selection, management and Layout separated in three groups</p>
-    <p>The <strong>selection</strong> tools are on the upper button group, which are from top to bottom, point, polygon and bounding box selection.</p>
-    <p>In the middle button group we have the <strong>Download Tool</strong> and the <strong>Selection Manager Tool</strong></p>
-    <p>The <strong>Layout</strong> Tools are available at the bottom, these allow setting the client as split screen or quad screen. </p>
+    <p>On the right i now opened the <strong>Tools</strong> Widget. This widget has Tools for point selection and Layout separated in three groups</p>
+    <p>The <strong>point selection</strong> tool is on the top.</p>
+    <p>The <strong>Layout</strong> Tools are available at the bottom, these allow setting the client as split screen or back to the single screen view. </p>
     <p>We will go into more detail of each of these components. As with the Layer Widget you can open and close the Tool Widget by clicking on the Tools button with the icon <i class="fa fa-fw fa-wrench"></i>.</p>
 </section>
 <section data-layers="daily_FSC_PanEuropean_Optical" data-time="2013-01-30T00:00:00Z/2013-01-15T23:59:59Z">
@@ -34,18 +33,36 @@
     <h2>Time Selection</h2>
     <p>Did you notice the <strong>time slider</strong> at the bottom of the page? We already selected Januar 1st to 15th 2013 for you.</p>
     <p>Try stretching the time interval at its ends or draw a new one and watch the satellite images adjusting. Only those acquired within the selected interval are displayed.</p>
+    <p>With the Pan-European Fractional Snow Cover product, you can query an archive holding over 14 years of daily snow coverage data!</p>
     <p>By the way, try the scroll wheel to uncover additional functionality.</p>
 </section>
 <section data-events="layout:switch:splitview">
     <span class="close">&#215;</span>
     <h2>Split View</h2>
-    <p>It is possible to activate Split View visualization in the Tools bar. By clicking and dragging on the division of both views it is possible to resize them. On the right we can see now a message to make sure Area, Time and Product are selected. By creating a selection a WCPS request will be send to retrieve data. We will create the selection for you in the next step.</p>
+    <p>It is possible to activate Split View visualization in the Tools bar. By clicking and dragging on the division of both views it is possible to resize them. On the right we can see now a message to make sure a Point or Rivershed, Time and Product are selected. By creating a selection a WCPS request will be send to retrieve data. We will create the selection for you in the next step.</p>
 </section>
-<section data-selection="data/rivershed.geojson">
+<section data-selection="data/poi.geojson">
+    <span class="close">&#215;</span>
+    <h2>Point Selection</h2>
+    <p>By clicking on the <strong>point selection</strong> you can click on the map to define the location of your point query. By clicking the "Ctrl" Key you can select multiple points.</p>
+    <p>We selected a point for you for demonstration.</p>
+</section>
+<section data-selection="data/rivershed.geojson" data-layers="rivershed>
     <span class="close">&#215;</span>
     <h2>Rivershed Selection</h2>
     <p>By clicking on the rivershed overlay layer you can select the displayed riverhseds by clicking on them. By clicking the "Ctrl" Key you can select multiple riversheds.</p>
     <p>We selected a rivershed for you for demonstration.</p>
+</section>
+<section data-selection="data/rivershed.geojson">
+    <span class="close">&#215;</span>
+    <h2>Contour Level Selection</h2>
+    <p>Did you see the <strong>contour level selection</strong> widget on the left side of the line plot? Here you can limit the snow statistics to certain contour levels, e.g. snow coverage above 2000 meters.</p>
+</section>
+<section>
+    <span class="close">&#215;</span>
+    <h2>Contour Level Selection</h2>
+    <p>You have now learned the basic principles of the <a href="http://earthserver.eu" target="_new">EarthServer</a> CryoService such as selecting the product of your choice, a time of interes, choosing between point or rivershed statistics as well as limiting the statistics to certain contour levels.</p>
+    <p>Feel free to close this tutorial and enjoy discovering spatio-temporal properties of snow coverage!.</p>
 </section>
 
 <div style="height: 25em;"><!-- FIXME --></div>
