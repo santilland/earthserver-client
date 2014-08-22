@@ -231,7 +231,7 @@ define(['backbone.marionette',
 					this.sendRequest();
 				}else{
 					this.$('.d3canvas').empty();
-					this.$('.d3canvas').html('<div class="empty-view">Please make sure to select a Layer, an Area of Interest (AoI) and a Time of Interest</div>');
+					this.$('.d3canvas').html('<div class="empty-view">Please make sure to select a Layer, a Point of Interest or Rivershed and a Time of Interest</div>');
 				}
 			},
 
