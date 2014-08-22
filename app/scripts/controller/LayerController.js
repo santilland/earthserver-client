@@ -31,12 +31,23 @@
 
 		   	layerActivate: function(layer){
 
+		   		var tmp_layer = layer;
+
 	            var layer = globals.products.find(function(model) { 
 	            	if(model.get('views'))
 	            		return model.get('views')[0].id == layer;
 	            	else 
 	            		return false; 
 	            });
+
+	            if(!layer) {
+	            	layer = globals.overlays.find(function(model) { 
+		            	if(model.get('view'))
+		            		return model.get('view').id == tmp_layer;
+		            	else 
+		            		return false; 
+		            });
+	            }
 
 	            var options = {};
 	            if (layer) {
